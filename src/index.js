@@ -40,7 +40,6 @@ function onSearch(e) {
       if (data.length === 1) {
         clearCountryList();
         appendCountyInfoMarkup(data);
-
         return;
       }
 
@@ -54,12 +53,16 @@ function onSearch(e) {
     });
 }
 
-function createCountryMarkup(countries) {
+function createCountryForListMarkup(countries) {
   return countries.map(({ name }) => `<li>${name.official}</li>`).join('');
 }
 
+function createCountryMarkup(countries) {
+  return countries.map(({ name }) => `<div>${name.official}</div>`).join('');
+}
+
 function appendCountryListMarkup(countries) {
-  refs.countryList.innerHTML = createCountryMarkup(countries);
+  refs.countryList.innerHTML = createCountryForListMarkup(countries);
 }
 
 function appendCountyInfoMarkup(countries) {
@@ -67,9 +70,11 @@ function appendCountyInfoMarkup(countries) {
 }
 
 function clearCountryList() {
+  console.log(refs.countryList.innerText);
   refs.countryList.innerHTML = '';
 }
 
 function clearCountyInfo() {
+  console.log(refs.countryList.innerText);
   refs.countryInfo.innerHTML = '';
 }
