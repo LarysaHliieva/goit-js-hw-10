@@ -48,9 +48,31 @@ function onSearch(e) {
     })
     .catch(error => {
       if (error.message === '404') {
+        clearCountryList();
+        clearCountyInfo();
         Notify.failure('Oops, there is no country with that name');
       }
     });
+}
+
+function appendCountryListMarkup(countries) {
+  refs.countryList.innerHTML = createCountryForListMarkup(countries);
+}
+
+function appendCountyInfoMarkup(countries) {
+  refs.countryInfo.innerHTML = createCountryMarkup(countries);
+}
+
+function clearCountryList() {
+  if (refs.countryList.innerHTML) {
+    refs.countryList.innerHTML = '';
+  }
+}
+
+function clearCountyInfo() {
+  if (refs.countryInfo.innerHTML) {
+    refs.countryInfo.innerHTML = '';
+  }
 }
 
 function createCountryForListMarkup(countries) {
@@ -83,24 +105,4 @@ function createCountryMarkup(countries) {
     </div>`
     )
     .join('');
-}
-
-function appendCountryListMarkup(countries) {
-  refs.countryList.innerHTML = createCountryForListMarkup(countries);
-}
-
-function appendCountyInfoMarkup(countries) {
-  refs.countryInfo.innerHTML = createCountryMarkup(countries);
-}
-
-function clearCountryList() {
-  if (refs.countryList.innerHTML) {
-    refs.countryList.innerHTML = '';
-  }
-}
-
-function clearCountyInfo() {
-  if (refs.countryInfo.innerHTML) {
-    refs.countryInfo.innerHTML = '';
-  }
 }
