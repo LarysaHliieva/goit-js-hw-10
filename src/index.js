@@ -15,12 +15,61 @@ const refs = {
 
 let searchQuery = '';
 
-refs.searchInput.addEventListener('input', debounce(onSearch, 300));
+refs.searchInput.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(e) {
-  searchQuery = e.target.value;
-  fetchCountries(searchQuery).then(data => console.log(data));
+  searchQuery = e.target.value.trim();
+
+  if (searchQuery === '') {
+    clearCountryList();
+    clearCountyInfo();
+    return;
+  }
+
+  fetchCountries(searchQuery)
+    .then(data => {
+      if (data.length > 10) {
+        clearCountryList();
+        clearCountyInfo();
+        Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+        );
+        return;
+      }
+
+      if (data.length === 1) {
+        clearCountryList();
+        appendCountyInfoMarkup(data);
+
+        return;
+      }
+
+      clearCountyInfo();
+      appendCountryListMarkup(data);
+    })
+    .catch(error => {
+      if (error.message === '404') {
+        Notify.failure('Oops, there is no country with that name');
+      }
+    });
 }
 
-// Notify.failure('Qui timide rogat docet negare');
-// Notify.info('Cogito ergo sum');
+function createCountryMarkup(countries) {
+  return countries.map(({ name }) => `<li>${name.official}</li>`).join('');
+}
+
+function appendCountryListMarkup(countries) {
+  refs.countryList.innerHTML = createCountryMarkup(countries);
+}
+
+function appendCountyInfoMarkup(countries) {
+  refs.countryInfo.innerHTML = createCountryMarkup(countries);
+}
+
+function clearCountryList() {
+  refs.countryList.innerHTML = '';
+}
+
+function clearCountyInfo() {
+  refs.countryInfo.innerHTML = '';
+}
