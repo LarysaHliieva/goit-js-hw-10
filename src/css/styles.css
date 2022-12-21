@@ -12,9 +12,50 @@ body {
   line-height: 1.5;
 }
 
+p {
+  margin: 0;
+}
+
 #search-box {
   font: inherit;
   padding: 8px;
   max-width: 320px;
   margin-bottom: 16px;
+}
+
+.country-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.country-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.country-list-item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.flag {
+  display: block;
+  width: 40px;
+  height: auto;
+}
+
+.nameWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-size: 30px;
+}
+
+.disc {
+  font-weight: bold;
 }

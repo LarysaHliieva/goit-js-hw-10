@@ -54,11 +54,35 @@ function onSearch(e) {
 }
 
 function createCountryForListMarkup(countries) {
-  return countries.map(({ name }) => `<li>${name.official}</li>`).join('');
+  return countries
+    .map(
+      ({ name, flags }) => `
+    <li class="country-list-item">
+      <img class="flag" src="${flags.png}" alt="flag of ${name.official}"}>
+      <p>${name.official}</p>
+    </li>
+  `
+    )
+    .join('');
 }
 
 function createCountryMarkup(countries) {
-  return countries.map(({ name }) => `<div>${name.official}</div>`).join('');
+  return countries
+    .map(
+      ({ name, flags, capital, population, languages }) => `
+    <div>
+      <div class="nameWrap">
+        <img class="flag" src="${flags.png}" alt="flag of ${name.official}"}>
+        <p class="name">${name.official}</p>
+      </div>
+      <p><span class="disc">Capital: </span>${capital}</p>
+      <p><span class="disc">Population: </span>${population}</p>
+      <p><span class="disc">Languages: </span>${Object.values(languages).map(
+        item => ' ' + item
+      )}</p>
+    </div>`
+    )
+    .join('');
 }
 
 function appendCountryListMarkup(countries) {
@@ -70,11 +94,13 @@ function appendCountyInfoMarkup(countries) {
 }
 
 function clearCountryList() {
-  console.log(refs.countryList.innerText);
-  refs.countryList.innerHTML = '';
+  if (refs.countryList.innerHTML) {
+    refs.countryList.innerHTML = '';
+  }
 }
 
 function clearCountyInfo() {
-  console.log(refs.countryList.innerText);
-  refs.countryInfo.innerHTML = '';
+  if (refs.countryInfo.innerHTML) {
+    refs.countryInfo.innerHTML = '';
+  }
 }
